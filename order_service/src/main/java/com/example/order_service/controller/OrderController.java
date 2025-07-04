@@ -4,6 +4,7 @@ import com.example.order_service.dto.request.OrderRequestDTO;
 import com.example.order_service.dto.response.OrderResponseDTO;
 import com.example.order_service.enums.OrderStatus;
 import com.example.order_service.service.OrderService;
+import com.example.order_service.utils.AccessChecker;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class OrderController {
     /** Creates a new order. */
     @PostMapping
     public ResponseEntity<Map<String, Object>> createOrder(@Valid @RequestBody OrderRequestDTO requestDTO) {
+        System.out.println(" Is the error here ");
         OrderResponseDTO response = orderService.createOrder(requestDTO);
         return sucessResponseUtil(HttpStatus.CREATED, response);
     }

@@ -22,6 +22,7 @@ public class OrderService {
     }
 
     public OrderResponseDTO createOrder(OrderRequestDTO requestDTO) {
+        System.out.println(" Is the error here ");
         Order order = OrderMapper.toEntity(requestDTO);
         Order saved = orderRepository.save(order);
         return OrderMapper.toDTO(saved);
