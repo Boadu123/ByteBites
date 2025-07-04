@@ -65,7 +65,7 @@ public class AuthService implements AuthInterface {
         UserModels user = userRepository.findByEmail(requestDTO.getEmail())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail(), user.getRoles(), user.getId());
         return LoginMapper.toLoginResponseDTO(token, user);
     }
 }

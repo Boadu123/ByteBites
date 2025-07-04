@@ -1,6 +1,6 @@
 package com.example.eureka.security;
 
-
+import com.example.eureka.enums.Roles;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -40,11 +40,13 @@ public class JwtService {
      * @param email the user's email to include as the subject
      * @return a signed JWT token string
      */
-    public String generateToken(String email) {
-        long jwtExpirationMs = 15 * 60 * 1000; // 15 minutes
+    public String generateToken(String email, Roles roles, Long userId) {
+        long jwtExpirationMs = 24 * 60 * 60 * 1000; // 24 hours
 
         return Jwts.builder()
                 .subject(email)
+                .claim("roles", roles)
+                .claim("userId", userId)
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + jwtExpirationMs))
                 .signWith(getSigningKey())
