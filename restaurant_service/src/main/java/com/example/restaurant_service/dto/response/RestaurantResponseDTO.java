@@ -7,14 +7,16 @@ public class RestaurantResponseDTO {
     private Long id;
     private String name;
     private String address;
+    private long ownerId;
     private List<MenuItemResponseDTO> menuItems;
 
     public RestaurantResponseDTO() {}
 
-    public RestaurantResponseDTO(Long id, String name, String address, List<MenuItemResponseDTO> menuItems) {
+    public RestaurantResponseDTO(Long id, String name, String address, long ownerId, List<MenuItemResponseDTO> menuItems) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.ownerId = ownerId;
         this.menuItems = menuItems;
     }
 
@@ -40,6 +42,14 @@ public class RestaurantResponseDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
     }
 
     public List<MenuItemResponseDTO> getMenuItems() {

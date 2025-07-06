@@ -14,16 +14,18 @@ public class Restaurant {
 
     private String name;
     private String address;
+    private long ownerId;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Menu> menuItems = new ArrayList<>();
 
     public Restaurant() {}
 
-    public Restaurant(Long id, String name, String address, List<Menu> menuItems) {
+    public Restaurant(Long id, String name, String address, long ownerId, List<Menu> menuItems) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.ownerId = ownerId;
         this.menuItems = menuItems;
     }
 
@@ -51,6 +53,14 @@ public class Restaurant {
         this.address = address;
     }
 
+    public long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(long ownerId) {
+        this.ownerId = ownerId;
+    }
+
     public List<Menu> getMenuItems() {
         return menuItems;
     }
@@ -63,6 +73,7 @@ public class Restaurant {
         private Long id;
         private String name;
         private String address;
+        private long ownerId;
         private List<Menu> menuItems = new ArrayList<>();
 
         public Builder id(Long id) {
@@ -77,6 +88,11 @@ public class Restaurant {
 
         public Builder address(String address) {
             this.address = address;
+            return this;
+        }
+
+        public Builder ownerId(long ownerId) {
+            this.ownerId = ownerId;
             return this;
         }
 
@@ -95,6 +111,7 @@ public class Restaurant {
             restaurant.setId(this.id);
             restaurant.setName(this.name);
             restaurant.setAddress(this.address);
+            restaurant.setOwnerId(this.ownerId);
             restaurant.setMenuItems(this.menuItems);
             return restaurant;
         }

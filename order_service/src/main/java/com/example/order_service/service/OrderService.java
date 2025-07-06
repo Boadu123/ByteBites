@@ -7,6 +7,7 @@ import com.example.order_service.exception.OrderNotFoundException;
 import com.example.order_service.mapper.OrderMapper;
 import com.example.order_service.models.Order;
 import com.example.order_service.repository.OrderRepository;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,15 +17,19 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final KafkaTemplate<String, OrderRequestDTO> kafkaTemplate;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, KafkaTemplate<String, OrderRequestDTO> kafkaTemplate) {
+
         this.orderRepository = orderRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     public OrderResponseDTO createOrder(OrderRequestDTO requestDTO) {
-        System.out.println(" Is the error here ");
         Order order = OrderMapper.toEntity(requestDTO);
         Order saved = orderRepository.save(order);
+        kafkaTemplate.send("order_create", requestDTO);
+        System.out.println("Order created successfully");
         return OrderMapper.toDTO(saved);
     }
 

@@ -15,6 +15,7 @@ public class RestaurantMapper {
         return Restaurant.builder()
                 .name(dto.getName())
                 .address(dto.getAddress())
+                .ownerId(dto.getOwnerId())
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class RestaurantMapper {
                 restaurant.getId(),
                 restaurant.getName(),
                 restaurant.getAddress(),
+                restaurant.getOwnerId(),
                 restaurant.getMenuItems() != null
                         ? restaurant.getMenuItems().stream()
                         .map(MenuItemMapper::toDTO)
