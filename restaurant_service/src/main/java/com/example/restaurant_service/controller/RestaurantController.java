@@ -1,11 +1,13 @@
 package com.example.restaurant_service.controller;
 
+import com.example.restaurant_service.dto.kafkaMessageDTO.OrderRequestDTO;
 import com.example.restaurant_service.dto.request.RestaurantRequestDTO;
 import com.example.restaurant_service.dto.response.RestaurantResponseDTO;
 import com.example.restaurant_service.service.RestaurantService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import static com.example.restaurant_service.utils.SucessResponseUtil.sucessResp
 
 @RestController
 @RequestMapping("/api/restaurants")
+@PreAuthorize("hasRole('RESTAURANT_OWNER')")
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
@@ -26,8 +29,8 @@ public class RestaurantController {
 
     /** Create a new restaurant */
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createRestaurant(@Valid @RequestBody RestaurantRequestDTO requestDTO) {
-        RestaurantResponseDTO response = restaurantService.createRestaurant(requestDTO);
+    public ResponseEntity<Map<String, Object>> createRestaurant(@Valid @RequestBody RestaurantRequestDTO restaurantRequestDTO) {
+        RestaurantResponseDTO response = restaurantService.createRestaurant(restaurantRequestDTO);
         return sucessResponseUtil(HttpStatus.CREATED, response);
     }
 
@@ -47,14 +50,16 @@ public class RestaurantController {
 
     /** Update a restaurant */
     @PutMapping("/{id}")
+    @PreAuthorize("@resourceOwner.isOrderOwner(#id, authentication.getPrincipal())")
     public ResponseEntity<Map<String, Object>> updateRestaurant(@PathVariable Long id,
-                                                                @Valid @RequestBody RestaurantRequestDTO requestDTO) {
-        RestaurantResponseDTO response = restaurantService.updateRestaurant(id, requestDTO);
+                                                                @Valid @RequestBody RestaurantRequestDTO restaurantRequestDTO) {
+        RestaurantResponseDTO response = restaurantService.updateRestaurant(id, restaurantRequestDTO);
         return sucessResponseUtil(HttpStatus.OK, response);
     }
 
     /** Delete a restaurant */
     @DeleteMapping("/{id}")
+    @PreAuthorize("@resourceOwner.isOrderOwner(#id, authentication.getPrincipal())")
     public ResponseEntity<Map<String, Object>> deleteRestaurant(@PathVariable Long id) {
         restaurantService.deleteRestaurant(id);
 

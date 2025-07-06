@@ -8,6 +8,7 @@ import com.example.order_service.utils.AccessChecker;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import static com.example.order_service.utils.SucessResponseUtil.sucessResponseU
 
 @RestController
 @RequestMapping("/api/orders")
+@PreAuthorize("hasRole('CUSTOMER')")
 public class OrderController {
 
     private final OrderService orderService;
@@ -43,6 +45,7 @@ public class OrderController {
 
     /** Retrieves a specific order by ID. */
     @GetMapping("/{id}")
+    @PreAuthorize("@resourceOwner.isOrderOwner(#id, authentication.getPrincipal())")
     public ResponseEntity<Map<String, Object>> getOrderById(@PathVariable Long id) {
         OrderResponseDTO response = orderService.getOrderById(id);
         return sucessResponseUtil(HttpStatus.OK, response);
@@ -57,6 +60,7 @@ public class OrderController {
 
     /** Updates the status of an order. */
     @PutMapping("/{id}/status")
+    @PreAuthorize("@resourceOwner.isOrderOwner(#id, authentication.getPrincipal())")
     public ResponseEntity<Map<String, Object>> updateOrderStatus(@PathVariable Long id,
                                                                  @RequestParam OrderStatus status) {
         OrderResponseDTO response = orderService.updateOrderStatus(id, status);

@@ -1,11 +1,14 @@
 package com.example.restaurant_service.service;
 
+import com.example.restaurant_service.dto.kafkaMessageDTO.OrderRequestDTO;
 import com.example.restaurant_service.dto.request.RestaurantRequestDTO;
 import com.example.restaurant_service.dto.response.RestaurantResponseDTO;
 import com.example.restaurant_service.exception.RestaurantNotFoundException;
 import com.example.restaurant_service.mapper.RestaurantMapper;
 import com.example.restaurant_service.models.Restaurant;
 import com.example.restaurant_service.repository.RestaurantRepository;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,9 +18,12 @@ import java.util.stream.Collectors;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final KafkaTemplate<String, OrderRequestDTO> kafkaTemplate;
 
-    public RestaurantService(RestaurantRepository restaurantRepository) {
+
+    public RestaurantService(RestaurantRepository restaurantRepository, KafkaTemplate<String, OrderRequestDTO> kafkaTemplate) {
         this.restaurantRepository = restaurantRepository;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     /** Create a new restaurant */
@@ -58,4 +64,11 @@ public class RestaurantService {
         }
         restaurantRepository.deleteById(restaurantId);
     }
+
+    /** Prepare order **/
+    @KafkaListener(topics = "order_create", groupId = "restaurant-group", containerFactory = "kafkaListenerContainerFactory")
+    public void listenOrderCreated(OrderRequestDTO orderRequestDTO) {
+        System.out.println(" Received order: " + orderRequestDTO);
+    }
+
 }
