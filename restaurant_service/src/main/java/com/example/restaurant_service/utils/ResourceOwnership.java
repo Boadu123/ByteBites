@@ -13,8 +13,6 @@ public class ResourceOwnership {
     }
 
     public boolean isOrderOwner(long restaurantId, long userId) {
-        System.out.println("Restaurant Id " + restaurantId);
-        System.out.println("User Id " + userId);
         return restaurantRepository.findById(restaurantId)
                 .map(order -> order.getOwnerId() == userId)
                 .orElse(false);

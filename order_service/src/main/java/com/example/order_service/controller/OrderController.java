@@ -30,8 +30,8 @@ public class OrderController {
 
     /** Creates a new order. */
     @PostMapping
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Map<String, Object>> createOrder(@Valid @RequestBody OrderRequestDTO requestDTO) {
-        System.out.println(" Is the error here ");
         OrderResponseDTO response = orderService.createOrder(requestDTO);
         return sucessResponseUtil(HttpStatus.CREATED, response);
     }
