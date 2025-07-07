@@ -16,19 +16,19 @@ graph TB
     Client[Client Applications<br/>Web/Mobile/API]
 
 %% API Gateway
-    Gateway[API Gateway<br/>Port: 8000<br/>Routing • Security • Load Balancing]
+    Gateway[API Gateway<br/>Port: 8080<br/>Routing • Security • Load Balancing]
 
 %% Core Business Services
-AuthService[Auth Service<br/>Port: 8030<br/>JWT • Authentication<br/>User Management]
+AuthService[Auth Service<br/>Port: 8082<br/>JWT • Authentication<br/>User Management]
 
-RestaurantService[Restaurant Service<br/>Port: 8040<br/>Menu Management<br/>Restaurant Info]
+RestaurantService[Restaurant Service<br/>Port: 8085<br/>Menu Management<br/>Restaurant Info]
 
-OrderService[Order Service<br/>Port: 8020<br/>Order Creation<br/>Order Status<br/>Payment]
+OrderService[Order Service<br/>Port: 8089<br/>Order Creation<br/>Order Status<br/>Payment]
 
 %% Infrastructure Services
 ConfigServer[Config Server<br/>Port: 8010<br/>Centralized Configuration]
 
-DiscoveryServer[Discovery Server<br/>Port: 8761<br/>Service Registry<br/>Health Checks]
+EurekaServer[Eureka Server<br/>Port: 8761<br/>Service Registry<br/>Health Checks]
 
 %% Kafka Infrastructure
 KafkaBroker[Kafka Broker<br/>Port: 9092<br/>Message Streaming]
@@ -97,7 +97,7 @@ class Database databaseBox
 * **`api-gateway`**: Serves as the single entry point for all client requests. It handles routing requests to the appropriate microservices, performs load balancing, and can implement cross-cutting concerns like authentication and security.
 * **`auth-service`**: Manages user authentication and authorization. It handles user registration, login, and token generation/validation to secure access to other services.
 * **`restaurant-service`**: Manages all restaurant-related data, including restaurant details, food menus, and pricing.
-* **`order-service`**: Responsible for handling the entire order lifecycle, from creating new orders to tracking their status and managing order details.
+* **`order-service`**: Responsible for handling the entire order lifecycle, from creating new orders to track their status and managing order details.
 
 #### Services primarily communicate in two ways:
 
