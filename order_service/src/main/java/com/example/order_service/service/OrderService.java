@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class OrderService {
+public class OrderService implements OrderServiceInterface {
 
     private final OrderRepository orderRepository;
     private final KafkaTemplate<String, OrderRequestDTO> kafkaTemplate;

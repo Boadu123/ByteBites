@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class RestaurantService {
+public class RestaurantService implements RestaurantServiceInterface {
 
     private final RestaurantRepository restaurantRepository;
     private final KafkaTemplate<String, OrderRequestDTO> kafkaTemplate;
