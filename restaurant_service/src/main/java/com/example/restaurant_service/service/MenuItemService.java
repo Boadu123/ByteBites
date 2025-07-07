@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class MenuItemService {
+public class MenuItemService implements MenuItemServiceInterface {
 
     private final MenuItemRepository menuItemRepository;
     private final RestaurantRepository restaurantRepository;
