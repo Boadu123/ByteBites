@@ -8,6 +8,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import static com.example.eureka.utils.ErrorResponse.errorResponse;
+
 
 import java.io.IOException;
 
@@ -42,7 +45,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-
             String jwt = authHeader.substring(7);
             String userEmail = jwtService.getEmailFromJwt(jwt);
 
@@ -50,8 +52,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.validateToken(jwt)) {
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
@@ -60,28 +61,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
 
         } catch (ExpiredJwtException e) {
-            sendErrorResponse(response, "Token expired", HttpServletResponse.SC_UNAUTHORIZED);
+            errorResponse(HttpStatus.UNAUTHORIZED, "Token expired");
         } catch (MalformedJwtException | SignatureException e) {
-            sendErrorResponse(response, "Invalid token", HttpServletResponse.SC_UNAUTHORIZED);
+            errorResponse(HttpStatus.UNAUTHORIZED, "Invalid token");
         } catch (IllegalArgumentException e) {
-            sendErrorResponse(response, "Missing or malformed token", HttpServletResponse.SC_UNAUTHORIZED);
+            errorResponse(HttpStatus.UNAUTHORIZED, "Missing or malformed token");
         }
-    }
-
-    private void sendErrorResponse(HttpServletResponse response, String message, int status) throws IOException {
-        response.setContentType("application/json");
-        response.setStatus(status);
-        response.getWriter().write(String.format(
-                """
-                {
-                    "message": "%s",
-                    "timestamp": "%s",
-                    "status": %d
-                }
-                """,
-                message,
-                java.time.Instant.now().toString(),
-                status
-        ));
     }
 }

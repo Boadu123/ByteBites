@@ -52,18 +52,18 @@ public class OrderController {
     }
 
     /** Retrieves orders by restaurant ID. */
-    @GetMapping("/by-restaurant/{restaurantId}")
-    public ResponseEntity<Map<String, Object>> getOrdersByRestaurant(@PathVariable Long restaurantId) {
-        List<OrderResponseDTO> response = orderService.getOrdersByRestaurant(restaurantId);
-        return sucessResponseUtil(HttpStatus.OK, response);
-    }
+//    @GetMapping("/by-restaurant/{restaurantId}")
+//    public ResponseEntity<Map<String, Object>> getOrdersByRestaurant(@PathVariable Long restaurantId) {
+//        List<OrderResponseDTO> response = orderService.getOrdersByRestaurant(restaurantId);
+//        return sucessResponseUtil(HttpStatus.OK, response);
+//    }
 
     /** Updates the status of an order. */
-    @PutMapping("/{id}/status")
-    @PreAuthorize("@resourceOwner.isOrderOwner(#id, authentication.getPrincipal())")
-    public ResponseEntity<Map<String, Object>> updateOrderStatus(@PathVariable Long id,
-                                                                 @RequestParam OrderStatus status) {
-        OrderResponseDTO response = orderService.updateOrderStatus(id, status);
-        return sucessResponseUtil(HttpStatus.OK, response);
-    }
+//    @PutMapping("/{id}/status")
+//    @PreAuthorize("@resourceOwner.isOrderOwner(#id, authentication.getPrincipal())")
+//    public ResponseEntity<Map<String, Object>> updateOrderStatus(@PathVariable Long id,
+//                                                                 @RequestParam OrderStatus status) {
+//        OrderResponseDTO response = orderService.updateOrderStatus(id, status);
+//        return sucessResponseUtil(HttpStatus.OK, response);
+//    }
 }

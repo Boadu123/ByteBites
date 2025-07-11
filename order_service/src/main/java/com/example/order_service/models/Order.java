@@ -71,7 +71,7 @@ public class Order {
         return menuItemId;
     }
 
-    public void setMenuItemId(String menuItems) {
+    public void setMenuItemId(Long menuItemId) {
         this.menuItemId = menuItemId;
     }
 
@@ -89,7 +89,7 @@ public class Order {
         private Long customerId;
         private Long restaurantId;
         private OrderStatus status = OrderStatus.PENDING;
-        private String menuItems;
+        private Long menuItemId;
         private Date createdAt = new Date();
 
         public Builder id(Long id) {
@@ -112,8 +112,8 @@ public class Order {
             return this;
         }
 
-        public Builder menuItems(String menuItems) {
-            this.menuItems = menuItems;
+        public Builder menuItems(Long menuItemId) {
+            this.menuItemId = menuItemId;
             return this;
         }
 
@@ -128,7 +128,7 @@ public class Order {
             order.setCustomerId(this.customerId);
             order.setRestaurantId(this.restaurantId);
             order.setStatus(this.status);
-            order.setMenuItemId(this.menuItems);
+            order.setMenuItemId(this.menuItemId);
             order.setCreatedAt(this.createdAt);
             return order;
         }

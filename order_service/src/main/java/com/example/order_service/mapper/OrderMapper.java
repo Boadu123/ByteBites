@@ -14,7 +14,7 @@ public class OrderMapper {
         return Order.builder()
                 .customerId(orderRequestDTO.getCustomerId())
                 .restaurantId(orderRequestDTO.getRestaurantId())
-                .menuItems(String.valueOf(orderRequestDTO.getMenuItemId()))
+                .menuItems(orderRequestDTO.getMenuItemId())
                 .build();
     }
 
