@@ -5,3 +5,4 @@ public class OperationNotAllowedException extends RuntimeException {
         super(message);
     }
 }
+
