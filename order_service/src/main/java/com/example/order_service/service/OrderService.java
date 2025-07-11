@@ -49,18 +49,5 @@ public class OrderService implements OrderServiceInterface {
         return OrderMapper.toDTO(order);
     }
 
-//    public List<OrderResponseDTO> getOrdersByRestaurant(Long restaurantId) {
-//        return orderRepository.findByRestaurantId(restaurantId).stream()
-//                .map(OrderMapper::toDTO)
-//                .collect(Collectors.toList());
-//    }
-//
-//    public OrderResponseDTO updateOrderStatus(Long orderId, OrderStatus status) {
-//        Order order = orderRepository.findById(orderId)
-//                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + orderId));
-//        order.setStatus(status);
-//        Order updated = orderRepository.save(order);
-//
-//        return OrderMapper.toDTO(updated);
-//    }
+
 }
