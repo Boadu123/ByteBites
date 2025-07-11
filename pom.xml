@@ -33,7 +33,6 @@
 		<module>eureka-service</module>
 		<module>auth-service</module>
 		<module>api_gateway</module>
-		<module>notification_service</module>
 		<module>order_service</module>
 		<module>notification_service</module>
 		<module>restaurant_service</module>
