@@ -26,6 +26,10 @@ public class OrderService implements OrderServiceInterface {
     }
 
     public OrderResponseDTO createOrder(OrderRequestDTO requestDTO) {
+        if (requestDTO == null) {
+            throw new IllegalArgumentException("Order request cannot be null");
+        }
+
         Order order = OrderMapper.toEntity(requestDTO);
         Order saved = orderRepository.save(order);
         kafkaTemplate.send("order_create", requestDTO);
@@ -45,18 +49,18 @@ public class OrderService implements OrderServiceInterface {
         return OrderMapper.toDTO(order);
     }
 
-    public List<OrderResponseDTO> getOrdersByRestaurant(Long restaurantId) {
-        return orderRepository.findByRestaurantId(restaurantId).stream()
-                .map(OrderMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    public OrderResponseDTO updateOrderStatus(Long orderId, OrderStatus status) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + orderId));
-        order.setStatus(status);
-        Order updated = orderRepository.save(order);
-
-        return OrderMapper.toDTO(updated);
-    }
+//    public List<OrderResponseDTO> getOrdersByRestaurant(Long restaurantId) {
+//        return orderRepository.findByRestaurantId(restaurantId).stream()
+//                .map(OrderMapper::toDTO)
+//                .collect(Collectors.toList());
+//    }
+//
+//    public OrderResponseDTO updateOrderStatus(Long orderId, OrderStatus status) {
+//        Order order = orderRepository.findById(orderId)
+//                .orElseThrow(() -> new OrderNotFoundException("Order not found with id: " + orderId));
+//        order.setStatus(status);
+//        Order updated = orderRepository.save(order);
+//
+//        return OrderMapper.toDTO(updated);
+//    }
 }

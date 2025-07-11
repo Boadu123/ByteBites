@@ -14,7 +14,7 @@ public interface OrderServiceInterface {
 
     OrderResponseDTO getOrderById(Long orderId);
 
-    List<OrderResponseDTO> getOrdersByRestaurant(Long restaurantId);
-
-    OrderResponseDTO updateOrderStatus(Long orderId, OrderStatus status);
+//    List<OrderResponseDTO> getOrdersByRestaurant(Long restaurantId);
+//
+//    OrderResponseDTO updateOrderStatus(Long orderId, OrderStatus status);
 }
